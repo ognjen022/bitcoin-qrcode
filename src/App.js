@@ -8,7 +8,7 @@ function App() {
   const [qrValue, setQRValue] = useState("");
 
   const generateQRCode = () => {
-    const qrvalue = `bitcoin:${bitcoin}?amount=${amount}`;
+    const qrvalue = `bitcoin:${bitcoin}${amount && `?amount=${amount}`}`;
     setQRValue(qrvalue);
     setQRVisible(true);
   };
@@ -16,10 +16,22 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">QR Code</header>
-      <input value={bitcoin} onChange={(e) => setBitcoin(e.target.value)} />
-      <input value={amount} onChange={(e) => setAmount(e.target.value)} />
+      <label htmlFor="bitcoin">Address:</label>
+      <input
+        id="bitcoin"
+        value={bitcoin}
+        onChange={(e) => setBitcoin(e.target.value)}
+      />
+      <label htmlFor="amount">Amount:</label>
+      <input
+        id="amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
       <button onClick={generateQRCode}>Generate QR code</button>
-      {qrVisible && <QRCode value={qrValue} renderAs="svg" />}
+      <div style={{ margin: "30px" }}>
+        {qrVisible && <QRCode value={qrValue} renderAs="svg" />}
+      </div>
     </div>
   );
 }
