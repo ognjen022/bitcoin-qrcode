@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import QRCode from "qrcode.react";
 
 function App() {
+  const [bitcoin, setBitcoin] = useState("");
+  const [amount, setAmount] = useState("");
+  const [qrVisible, setQRVisible] = useState(false);
+  const [qrValue, setQRValue] = useState("");
+
+  const generateQRCode = () => {
+    const qrvalue = `bitcoin:${bitcoin}?amount=${amount}`;
+    setQRValue(qrvalue);
+    setQRVisible(true);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header className="App-header">QR Code</header>
+      <input value={bitcoin} onChange={(e) => setBitcoin(e.target.value)} />
+      <input value={amount} onChange={(e) => setAmount(e.target.value)} />
+      <button onClick={generateQRCode}>Generate QR code</button>
+      {qrVisible && <QRCode value={qrValue} renderAs="svg" />}
     </div>
   );
 }
